@@ -8,6 +8,7 @@ The benchmark is written as a parameterized junit test and the results are outpu
 
 ### Latency
 - 23% reduction in mean latency.
+- 21% reduction in median latency.
 - 37% reduction of latency in 99th percentile.
 
 ### Memory
