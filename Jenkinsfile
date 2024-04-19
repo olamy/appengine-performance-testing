@@ -6,13 +6,9 @@ pipeline {
         buildDiscarder logRotator(numToKeepStr: '100')
     }
     parameters {
-        // These settings are used both by the test JVM and by this script too.
-        string(defaultValue: 'load-jdk21', description: 'JDK to use', name: 'JDK_TO_USE')
-
+        string(defaultValue: 'jdk21', description: 'JDK to use', name: 'JDK_TO_USE')
         string(defaultValue: 'load-master-2', description: 'Name of the server machine', name: 'SERVER_NAME')
-        string(defaultValue: '-Xms32G -Xmx32G', description: 'Arguments of the server JVM', name: 'SERVER_JVM_OPTS')
         string(defaultValue: 'load-8', description: 'Name of the probe machine', name: 'CLIENT_NAME')
-        string(defaultValue: '-Xms8G -Xmx8G', description: 'Arguments of the probe JVM', name: 'CLIENT_JVM_OPTS')
     }
     tools {
         jdk "${JDK_TO_USE}"

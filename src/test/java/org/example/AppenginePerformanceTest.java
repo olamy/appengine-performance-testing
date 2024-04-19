@@ -114,8 +114,15 @@ public class AppenginePerformanceTest implements Serializable
 
             Path outputDir = Paths.get(OUTPUT_DIR);
             Files.createDirectories(outputDir);
+
+            /* TODO: open bug report.
             IO.copyDir(serverRootDir, outputDir);
             IO.copyDir(clientRootDir, outputDir);
+             */
+            Files.copy(clientRootDir.resolve("newMode-client-output.txt"), outputDir.resolve("newMode-client-output.txt"));
+            Files.copy(clientRootDir.resolve("newMode-server-output.txt"), outputDir.resolve("newMode-server-output.txt"));
+            Files.copy(clientRootDir.resolve("oldMode-client-output.txt"), outputDir.resolve("oldMode-client-output.txt"));
+            Files.copy(clientRootDir.resolve("oldMode-server-output.txt"), outputDir.resolve("oldMode-server-output.txt"));
         }
     }
 
