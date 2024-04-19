@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 
 import org.eclipse.jetty.util.IO;
 import org.example.jdk.LocalJdk;
-import org.example.jdk.util.ReportUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -116,8 +115,8 @@ public class AppenginePerformanceTest implements Serializable
             // Download the results.
             Path outputDir = Paths.get(OUTPUT_DIR);
             Files.createDirectories(outputDir);
-            ReportUtil.download(client, outputDir);
-            ReportUtil.download(server, outputDir);
+            IO.copyDir(serverRootDir, outputDir);
+            IO.copyDir(clientRootDir, outputDir);
         }
     }
 
