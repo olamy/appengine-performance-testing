@@ -36,8 +36,8 @@ public class AppenginePerformanceTest implements Serializable
     public static Stream<Arguments> arguments()
     {
         return Stream.of(
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), true, "newMode-"),
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), false, "oldMode-")
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(1), true, "newMode-"),
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(1), false, "oldMode-")
         );
     }
 
@@ -119,10 +119,8 @@ public class AppenginePerformanceTest implements Serializable
             IO.copyDir(serverRootDir, outputDir);
             IO.copyDir(clientRootDir, outputDir);
              */
-            Files.copy(clientRootDir.resolve("newMode-client-output.txt"), outputDir.resolve("newMode-client-output.txt"));
-            Files.copy(clientRootDir.resolve("newMode-server-output.txt"), outputDir.resolve("newMode-server-output.txt"));
-            Files.copy(clientRootDir.resolve("oldMode-client-output.txt"), outputDir.resolve("oldMode-client-output.txt"));
-            Files.copy(clientRootDir.resolve("oldMode-server-output.txt"), outputDir.resolve("oldMode-server-output.txt"));
+            Files.copy(clientRootDir.resolve(logPrefix + "client-output.txt"), outputDir.resolve(logPrefix + "client-output.txt"));
+            Files.copy(serverRootDir.resolve(logPrefix + "server-output.txt"), outputDir.resolve(logPrefix + "server-output.txt"));
         }
     }
 
