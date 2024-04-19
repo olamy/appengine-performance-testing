@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import org.eclipse.jetty.util.IO;
+import org.example.jdk.LocalJdk;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -30,6 +31,8 @@ import static org.awaitility.Awaitility.await;
 
 public class AppenginePerformanceTest implements Serializable
 {
+    private static final String OUTPUT_DIR = "target/reports";
+
     public static Stream<Arguments> arguments()
     {
         return Stream.of(
@@ -41,8 +44,14 @@ public class AppenginePerformanceTest implements Serializable
     @BeforeAll
     public static void beforeAll()
     {
-        Path outputDir = Paths.get("output");
+        Path outputDir = Paths.get(OUTPUT_DIR);
         IO.delete(outputDir);
+    }
+
+    private String getEnvVar(String name, String defaultValue)
+    {
+        String value = System.getenv(name);
+        return value == null ? defaultValue : value;
     }
 
     @ParameterizedTest
@@ -50,11 +59,12 @@ public class AppenginePerformanceTest implements Serializable
     public void test(int resourceRate, int numWrites, int bufferSize, Duration duration, boolean useHttpConnectorMode, String logPrefix) throws Exception
     {
         int serverPort = 8080;
-        String clientHost = "localhost";
-        String serverHost = "localhost";
+        String clientHost = getEnvVar("SERVER_NAME", "localhost");
+        String serverHost = getEnvVar("CLIENT_NAME", "localhost");
+        String jdkName = getEnvVar("JDK_TO_USE", "jdk21");
 
         ClusterConfiguration cfg = new SimpleClusterConfiguration()
-            .jvm(new Jvm((fileSystem, hostname) -> "/home/lachlan/.sdkman/candidates/java/current/bin/java"))
+            .jvm(new Jvm(new LocalJdk(jdkName)))
             .nodeArray(new SimpleNodeArrayConfiguration("client")
                 .node(new Node(clientHost)))
             .nodeArray(new SimpleNodeArrayConfiguration("server")
@@ -102,7 +112,7 @@ public class AppenginePerformanceTest implements Serializable
             clientFuture.get(duration.plusMinutes(1).toMillis(), TimeUnit.MILLISECONDS);
             serverFuture.get(10, TimeUnit.SECONDS);
 
-            Path outputDir = Paths.get("output");
+            Path outputDir = Paths.get(OUTPUT_DIR);
             Files.createDirectories(outputDir);
             IO.copyDir(serverRootDir, outputDir);
             IO.copyDir(clientRootDir, outputDir);
