@@ -37,8 +37,8 @@ public class AppenginePerformanceTest implements Serializable
     public static Stream<Arguments> arguments()
     {
         return Stream.of(
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(10), true, "newMode-"),
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(10), false, "oldMode-")
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), true, "newMode-"),
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), false, "oldMode-")
         );
     }
 
@@ -113,13 +113,9 @@ public class AppenginePerformanceTest implements Serializable
             clientFuture.get(duration.plusMinutes(1).toMillis(), TimeUnit.MILLISECONDS);
             serverFuture.get(10, TimeUnit.SECONDS);
 
+            // Download the results.
             Path outputDir = Paths.get(OUTPUT_DIR);
             Files.createDirectories(outputDir);
-
-            /* TODO: open bug report.
-            IO.copyDir(serverRootDir, outputDir);
-            IO.copyDir(clientRootDir, outputDir);
-             */
             ReportUtil.download(client, outputDir);
             ReportUtil.download(server, outputDir);
         }
