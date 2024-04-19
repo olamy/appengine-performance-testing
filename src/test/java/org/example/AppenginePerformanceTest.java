@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.jetty.util.IO;
 import org.example.jdk.LocalJdk;
+import org.example.jdk.util.ReportUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -36,8 +37,8 @@ public class AppenginePerformanceTest implements Serializable
     public static Stream<Arguments> arguments()
     {
         return Stream.of(
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), true, "newMode-"),
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), false, "oldMode-")
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(10), true, "newMode-"),
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(10), false, "oldMode-")
         );
     }
 
@@ -119,8 +120,8 @@ public class AppenginePerformanceTest implements Serializable
             IO.copyDir(serverRootDir, outputDir);
             IO.copyDir(clientRootDir, outputDir);
              */
-            Files.copy(clientRootDir.resolve(logPrefix + "client-output.txt"), outputDir.resolve(logPrefix + "client-output.txt"));
-            Files.copy(serverRootDir.resolve(logPrefix + "server-output.txt"), outputDir.resolve(logPrefix + "server-output.txt"));
+            ReportUtil.download(client, outputDir);
+            ReportUtil.download(server, outputDir);
         }
     }
 
