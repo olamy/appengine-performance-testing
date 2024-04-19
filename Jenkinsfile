@@ -27,8 +27,8 @@ pipeline {
                               branches         : [[name: "*/master"]],
                               extensions       : [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
                               userRemoteConfigs: [[url: 'https://github.com/lachlan-roberts/appengine-performance-testing.git']]])
-                    withEnv(["JAVA_HOME=${tool "jdk21"}",
-                             "PATH+MAVEN=${tool "jdk21"}/bin:${tool "maven3"}/bin",
+                    withEnv(["JAVA_HOME=${tool "jdk17"}",
+                             "PATH+MAVEN=${tool "jdk17"}/bin:${tool "maven3"}/bin",
                              "MAVEN_OPTS=-Xmx4G -Djava.awt.headless=true"]) {
                         configFileProvider(
                             [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {

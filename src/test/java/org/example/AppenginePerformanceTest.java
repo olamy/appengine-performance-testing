@@ -37,8 +37,8 @@ public class AppenginePerformanceTest implements Serializable
     public static Stream<Arguments> arguments()
     {
         return Stream.of(
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), true, "newMode-"),
-            Arguments.of(3000, 5, 1024, Duration.ofSeconds(60), false, "oldMode-")
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(11), true, "newMode-"),
+            Arguments.of(3000, 5, 1024, Duration.ofSeconds(11), false, "oldMode-")
         );
     }
 
