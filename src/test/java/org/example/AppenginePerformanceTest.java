@@ -115,6 +115,8 @@ public class AppenginePerformanceTest implements Serializable
             // Download the results.
             Path outputDir = Paths.get(OUTPUT_DIR);
             Files.createDirectories(outputDir);
+
+            // TODO: This cannot be run with JDK21 because of https://github.com/jetty-project/jetty-cluster-orchestrator/issues/209
             IO.copyDir(serverRootDir, outputDir);
             IO.copyDir(clientRootDir, outputDir);
         }
