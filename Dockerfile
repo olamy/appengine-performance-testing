@@ -25,6 +25,9 @@ ADD --chown=jenkins:jenkins authorized_keys /home/jenkins/.ssh
 RUN chown -R jenkins:jenkins /home/jenkins/.ssh
 RUN chmod 700 /home/jenkins/.ssh && \
     chmod 600 /home/jenkins/.ssh/authorized_keys
+
+COPY --from=eclipse-temurin:21.0.3_9-jdk /opt/java/openjdk /usr/local/java
+
 # Expose the SSH port
 EXPOSE 22
 
