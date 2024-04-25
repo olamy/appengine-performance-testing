@@ -38,3 +38,14 @@ What the stats mean:
  - **RSS** - resident set size, the non-swapped physical memory that the process has used.
  - **Total Committed Memory** - the total amount of memory that the JVM has committed to the Java application, including heap and non-heap memory.
  - **Java Heap Committed Size** - the amount of memory committed to the heap.
+
+## Docker Kubernetes
+build the image
+`docker build --tag=jetty-appengine-ssh:latest  .`
+to deploy
+```
+timestamp format: 11-09-2023-16-31
+docker tag jetty-appengine-ssh:latest jettyproject/jetty-appengine-ssh:$timestamp
+docker push jettyproject/jetty-appengine-ssh:$timestamp
+```
+
